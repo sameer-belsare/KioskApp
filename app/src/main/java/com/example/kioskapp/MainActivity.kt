@@ -7,6 +7,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.CrossProfileApps
 import android.os.*
 import androidx.appcompat.app.AppCompatActivity
 import android.provider.Settings
@@ -22,6 +23,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mAdminComponentName: ComponentName
     private lateinit var mDevicePolicyManager: DevicePolicyManager
     private lateinit var mUserManager: UserManager
+    private lateinit var mCrossProfileApps: CrossProfileApps
+
     companion object {
         const val LOCK_ACTIVITY_KEY = "pl.snowdog.kiosk.MainActivity"
     }
@@ -34,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         mAdminComponentName = MyDeviceAdminReceiver.getComponentName(this)
         mDevicePolicyManager = getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
         mUserManager = getSystemService(Context.USER_SERVICE) as UserManager
+        mCrossProfileApps = getSystemService(Context.CROSS_PROFILE_APPS_SERVICE) as CrossProfileApps
 
         var isAdmin = false
         if (mDevicePolicyManager.isDeviceOwnerApp(packageName)) {
@@ -55,34 +59,13 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
         btSwitchToAdmin.setOnClickListener {
-            //mDevicePolicyManager.switchUser(mAdminComponentName, null)
+            //Log.i("Users", "User count: " + mUserManager.userProfiles)
+            mDevicePolicyManager.switchUser(mAdminComponentName, UserHandle.getUserHandleForUid(0))
+        }
 
-            /*val identifiers = mDevicePolicyManager.getAffiliationIds(mAdminComponentName)
-            if (identifiers.isEmpty()) {
-                identifiers.add(UUID.randomUUID().toString())
-                mDevicePolicyManager.setAffiliationIds(mAdminComponentName, identifiers)
-            }
-            val adminExtras = PersistableBundle()
-            adminExtras.putString(AFFILIATION_ID_KEY, identifiers.first())
-            try {
-                val ephemeralUser = mDevicePolicyManager.createAndManageUser(
-                    mAdminComponentName,
-                    "tmp_user",
-                    mAdminComponentName,
-                    adminExtras,
-                    DevicePolicyManager.MAKE_USER_EPHEMERAL or
-                            DevicePolicyManager.SKIP_SETUP_WIZARD)
-
-            } catch (e: UserManager.UserOperationException) {
-                if (e.userOperationResult ==
-                    UserManager.USER_OPERATION_ERROR_MAX_USERS) {
-                    // Find a way to free up users...
-                }
-            }
-            val secondaryUsers = mDevicePolicyManager.getSecondaryUsers(mAdminComponentName)
-            for(secondary in secondaryUsers) {
-                Log.i("secondaryUsers", "User: " + secondary.describeContents())
-            }*/
+        btSwitchToNewUser.setOnClickListener {
+            //Log.i("Users", "User count: " + mUserManager.userProfiles)
+            mDevicePolicyManager.switchUser(mAdminComponentName, UserHandle.getUserHandleForUid(10))
         }
     }
 

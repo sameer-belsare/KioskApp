@@ -6,4 +6,5 @@
     <string name="start_lock_task">Start Lock</string>
     <string name="stop_lock_task">Stop Lock</string>
     <string name="switch_to_admin">Switch to Admin</string>
+    <string name="switch_to_new_user">Switch to New user</string>
 </resources>
