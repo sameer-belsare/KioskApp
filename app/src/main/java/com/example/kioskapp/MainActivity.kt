@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mCrossProfileApps: CrossProfileApps
 
     companion object {
-        const val LOCK_ACTIVITY_KEY = "pl.snowdog.kiosk.MainActivity"
+        const val LOCK_ACTIVITY_KEY = "com.example.kioskapp.MainActivity"
     }
 
     @TargetApi(Build.VERSION_CODES.P)
