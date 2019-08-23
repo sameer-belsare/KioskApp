@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         btSwitchToAdmin.setOnClickListener {
             //mDevicePolicyManager.switchUser(mAdminComponentName, null)
 
-            val identifiers = mDevicePolicyManager.getAffiliationIds(mAdminComponentName)
+            /*val identifiers = mDevicePolicyManager.getAffiliationIds(mAdminComponentName)
             if (identifiers.isEmpty()) {
                 identifiers.add(UUID.randomUUID().toString())
                 mDevicePolicyManager.setAffiliationIds(mAdminComponentName, identifiers)
@@ -82,7 +82,7 @@ class MainActivity : AppCompatActivity() {
             val secondaryUsers = mDevicePolicyManager.getSecondaryUsers(mAdminComponentName)
             for(secondary in secondaryUsers) {
                 Log.i("secondaryUsers", "User: " + secondary.describeContents())
-            }
+            }*/
         }
     }
 
