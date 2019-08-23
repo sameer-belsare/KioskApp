@@ -9,17 +9,14 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.CrossProfileApps
 import android.os.*
-import androidx.appcompat.app.AppCompatActivity
 import android.provider.Settings
-import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
-    private val AFFILIATION_ID_KEY = "AFFILIATION_ID_KEY"
     private lateinit var mAdminComponentName: ComponentName
     private lateinit var mDevicePolicyManager: DevicePolicyManager
     private lateinit var mUserManager: UserManager
@@ -35,7 +32,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         mAdminComponentName = MyDeviceAdminReceiver.getComponentName(this)
-        mDevicePolicyManager = getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
+        mDevicePolicyManager =
+            getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
         mUserManager = getSystemService(Context.USER_SERVICE) as UserManager
         mCrossProfileApps = getSystemService(Context.CROSS_PROFILE_APPS_SERVICE) as CrossProfileApps
 
@@ -95,21 +93,31 @@ class MainActivity : AppCompatActivity() {
     } else {
         mDevicePolicyManager.clearUserRestriction(mAdminComponentName, restriction)
     }
-    // endregion
 
     private fun enableStayOnWhilePluggedIn(active: Boolean) = if (active) {
-        mDevicePolicyManager.setGlobalSetting(mAdminComponentName,
+        mDevicePolicyManager.setGlobalSetting(
+            mAdminComponentName,
             Settings.Global.STAY_ON_WHILE_PLUGGED_IN,
-            Integer.toString(BatteryManager.BATTERY_PLUGGED_AC
-                    or BatteryManager.BATTERY_PLUGGED_USB
-                    or BatteryManager.BATTERY_PLUGGED_WIRELESS))
+            Integer.toString(
+                BatteryManager.BATTERY_PLUGGED_AC
+                        or BatteryManager.BATTERY_PLUGGED_USB
+                        or BatteryManager.BATTERY_PLUGGED_WIRELESS
+            )
+        )
     } else {
-        mDevicePolicyManager.setGlobalSetting(mAdminComponentName, Settings.Global.STAY_ON_WHILE_PLUGGED_IN, "0")
+        mDevicePolicyManager.setGlobalSetting(
+            mAdminComponentName,
+            Settings.Global.STAY_ON_WHILE_PLUGGED_IN,
+            "0"
+        )
     }
 
     private fun setLockTask(start: Boolean, isAdmin: Boolean) {
         if (isAdmin) {
-            mDevicePolicyManager.setLockTaskPackages(mAdminComponentName, if (start) arrayOf(packageName) else arrayOf())
+            mDevicePolicyManager.setLockTaskPackages(
+                mAdminComponentName,
+                if (start) arrayOf(packageName) else arrayOf()
+            )
         }
         if (start) {
             startLockTask()
@@ -120,8 +128,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun setUpdatePolicy(enable: Boolean) {
         if (enable) {
-            mDevicePolicyManager.setSystemUpdatePolicy(mAdminComponentName,
-                SystemUpdatePolicy.createWindowedInstallPolicy(60, 120))
+            mDevicePolicyManager.setSystemUpdatePolicy(
+                mAdminComponentName,
+                SystemUpdatePolicy.createWindowedInstallPolicy(60, 120)
+            )
         } else {
             mDevicePolicyManager.setSystemUpdatePolicy(mAdminComponentName, null)
         }
@@ -134,10 +144,14 @@ class MainActivity : AppCompatActivity() {
                 addCategory(Intent.CATEGORY_DEFAULT)
             }
             mDevicePolicyManager.addPersistentPreferredActivity(
-                mAdminComponentName, intentFilter, ComponentName(packageName, MainActivity::class.java.name))
+                mAdminComponentName,
+                intentFilter,
+                ComponentName(packageName, MainActivity::class.java.name)
+            )
         } else {
             mDevicePolicyManager.clearPackagePersistentPreferredActivities(
-                mAdminComponentName, packageName)
+                mAdminComponentName, packageName
+            )
         }
     }
 
