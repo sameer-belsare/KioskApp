@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Kiosk App</string>
+    <string name="admin_description">Kiosk Admin</string>
+    <string name="device_owner">This is device owner</string>
+    <string name="not_device_owner">This is not a device owner</string>
+    <string name="start_lock_task">Start Lock</string>
+    <string name="stop_lock_task">Stop Lock</string>
+    <string name="switch_to_admin">Switch to Admin</string>
+</resources>
